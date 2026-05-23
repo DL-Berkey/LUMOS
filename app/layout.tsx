@@ -1,26 +1,29 @@
-import { Geist, Geist_Mono, Noto_Sans } from "next/font/google"
-
 import "./globals.css"
+
+import localFont from "next/font/local"
+
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
-const notoSans = Noto_Sans({subsets:['latin'],variable:'--font-sans'})
+export const metadata = {
+  title: "LUMOS",
+  description: "Lumori Ultimate Multi Operating System",
+}
 
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
+const font = localFont({
+  src: "../public/font/Pretendard-Regular.woff2",
 })
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode
-}>) {
+}>) => {
   return (
     <html
-      lang="en"
+      lang="ko"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", notoSans.variable)}
+      className={cn("antialiased", font.className)}
     >
       <body>
         <ThemeProvider>{children}</ThemeProvider>
@@ -28,3 +31,5 @@ export default function RootLayout({
     </html>
   )
 }
+
+export default RootLayout
