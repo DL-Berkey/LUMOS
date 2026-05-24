@@ -27,9 +27,9 @@ const RootLayout = ({
             suppressHydrationWarning
             className={cn("antialiased", font.className)}
         >
-            <body className="bg-indigo-50">
+            <body className="bg-background">
                 <ThemeProvider>
-                    <div className="container mx-auto grid h-dvh grid-cols-1 grid-rows-[1fr_16fr] bg-[#F8F9FA]">
+                    <div className="container mx-auto grid h-dvh grid-cols-1 grid-rows-[1fr_16fr] bg-background">
                         <Header />
                         {children}
                     </div>
