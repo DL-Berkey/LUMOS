@@ -18,6 +18,10 @@ const CalendarSection = () => {
 
     const [inputMode, setInputMode] = useState(true)
 
+    const handleInputMode = () => {
+        setInputMode((prev) => !prev)
+    }
+
     const handleClickDayCell = (calendarDay: CalendarDay) => {
         const isSelectedDate = action.getIsSelectedDate(calendarDay)
 
@@ -51,10 +55,11 @@ const CalendarSection = () => {
                     {selectedDate.format("YYYY-MM-DD")}
                 </div>
             )}
-            <div className="grid h-full flex-7 grid-rows-[6rem_2rem_1fr] p-2">
+            <div className="grid h-full flex-7 grid-rows-[6rem_2rem_1fr] pb-4">
                 <CalendarNavbar
-                    currentYear={currentYearName}
-                    currentMonth={currentMonthName}
+                    currentYearName={currentYearName}
+                    currentMonthName={currentMonthName}
+                    handleInputMode={handleInputMode}
                     goPreviousMonth={action.goPreviousMonth}
                     goNextMonth={action.goNextMonth}
                     goToday={action.goToday}
@@ -68,6 +73,7 @@ const CalendarSection = () => {
                         return (
                             <CalendarDayCell
                                 key={idx}
+                                isToday={calendarDay.isToday}
                                 isSelected={isSelectedDate}
                                 isCurrentMonth={calendarDay.isCurrentMonth}
                                 onClick={() => handleClickDayCell(calendarDay)}
