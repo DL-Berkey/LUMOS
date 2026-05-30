@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils"
 
-const CalendarWeekRow = () => {
+const CalendarWeekbar = () => {
     return (
         <div className="grid grid-cols-7 items-center bg-gray-100">
             {[
@@ -17,7 +17,7 @@ const CalendarWeekRow = () => {
                         key={idx}
                         className={cn(
                             "text-center",
-                            idx === 0 || (idx === 6 && "text-red-500")
+                            (idx === 0 || idx === 6) && "text-red-500"
                         )}
                     >
                         {week}
@@ -28,4 +28,4 @@ const CalendarWeekRow = () => {
     )
 }
 
-export default CalendarWeekRow
+export default CalendarWeekbar

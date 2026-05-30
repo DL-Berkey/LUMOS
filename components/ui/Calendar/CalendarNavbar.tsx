@@ -1,6 +1,8 @@
+import { useInputModeContext } from "@/context/InputModeContext"
 import { Button } from "../button"
 import { ButtonGroup, ButtonGroupSeparator } from "../button-group"
-import { Separator } from "../separator"
+
+import { useCalendarContext } from "@/context/CalendarContext"
 
 import {
     ChevronLeft,
@@ -10,27 +12,19 @@ import {
     StickyNote,
 } from "lucide-react"
 
-type Props = {
-    currentYearName: string
-    currentMonthName: string
-    handleInputMode: () => void
-    goPreviousMonth: () => void
-    goNextMonth: () => void
-    goToday: () => void
-}
+const CalendarNavbar = () => {
+    const {
+        currentYearName,
+        currentMonthName,
+        action: { goPreviousMonth, goNextMonth, goToday },
+    } = useCalendarContext()
 
-const CalendarNavbar = ({
-    currentYearName,
-    currentMonthName,
-    handleInputMode,
-    goPreviousMonth,
-    goNextMonth,
-    goToday,
-}: Props) => {
+    const { switchInputMode } = useInputModeContext()
+
     return (
         <nav className="relative grid place-items-center">
             <ButtonGroup className="absolute top-1/2 left-0 -translate-y-1/2 gap-1">
-                <Button variant="ghost" size="lg" onClick={handleInputMode}>
+                <Button variant="ghost" size="lg" onClick={switchInputMode}>
                     <StickyNote className="text-primary" />
                     작성
                 </Button>

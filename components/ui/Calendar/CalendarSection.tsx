@@ -1,32 +1,20 @@
-import { useState } from "react"
-
-import useCalendar from "@/hooks/useCalendar"
+import { useCalendarContext } from "@/context/CalendarContext"
+import { useInputModeContext } from "@/context/InputModeContext"
 import { CalendarDay } from "@/types/calendarType"
 import CalendarNavbar from "./CalendarNavbar"
-import CalendarWeekRow from "./CalendarWeekRow"
+import CalendarWeekbar from "./CalendarWeekbar"
 import CalendarDayCell from "./CalendarDayCell"
 
 const CalendarSection = () => {
-    const {
-        currentDate,
-        selectedDate,
-        currentYearName,
-        currentMonthName,
-        calendarDayList,
-        action,
-    } = useCalendar()
+    const { calendarDayList, action } = useCalendarContext()
 
-    const [inputMode, setInputMode] = useState(true)
-
-    const handleInputMode = () => {
-        setInputMode((prev) => !prev)
-    }
+    const { switchInputMode, handleInputMode } = useInputModeContext()
 
     const handleClickDayCell = (calendarDay: CalendarDay) => {
         const isSelectedDate = action.getIsSelectedDate(calendarDay)
 
         if (isSelectedDate) {
-            setInputMode((prev) => !prev)
+            switchInputMode()
 
             return
         }
@@ -44,45 +32,30 @@ const CalendarSection = () => {
                 break
         }
 
-        setInputMode(true)
+        handleInputMode(true)
         action.handleSelectedDate(calendarDay)
     }
 
     return (
-        <section className="flex h-full">
-            {inputMode && (
-                <div className="flex-3">
-                    {selectedDate.format("YYYY-MM-DD")}
-                </div>
-            )}
-            <div className="grid h-full flex-7 grid-rows-[6rem_2rem_1fr] pb-4">
-                <CalendarNavbar
-                    currentYearName={currentYearName}
-                    currentMonthName={currentMonthName}
-                    handleInputMode={handleInputMode}
-                    goPreviousMonth={action.goPreviousMonth}
-                    goNextMonth={action.goNextMonth}
-                    goToday={action.goToday}
-                />
-                <CalendarWeekRow />
-                <div className="grid grid-cols-7 gap-1">
-                    {calendarDayList.map((calendarDay, idx) => {
-                        const isSelectedDate =
-                            action.getIsSelectedDate(calendarDay)
+        <section className="grid h-full flex-7 grid-rows-[6rem_2rem_1fr] pb-4">
+            <CalendarNavbar />
+            <CalendarWeekbar />
+            <div className="grid grid-cols-7 gap-1">
+                {calendarDayList.map((calendarDay, idx) => {
+                    const isSelectedDate = action.getIsSelectedDate(calendarDay)
 
-                        return (
-                            <CalendarDayCell
-                                key={idx}
-                                isToday={calendarDay.isToday}
-                                isSelected={isSelectedDate}
-                                isCurrentMonth={calendarDay.isCurrentMonth}
-                                onClick={() => handleClickDayCell(calendarDay)}
-                            >
-                                {calendarDay.day}
-                            </CalendarDayCell>
-                        )
-                    })}
-                </div>
+                    return (
+                        <CalendarDayCell
+                            key={idx}
+                            isToday={calendarDay.isToday}
+                            isSelected={isSelectedDate}
+                            isCurrentMonth={calendarDay.isCurrentMonth}
+                            onClick={() => handleClickDayCell(calendarDay)}
+                        >
+                            {calendarDay.day}
+                        </CalendarDayCell>
+                    )
+                })}
             </div>
         </section>
     )
